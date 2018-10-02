@@ -1,5 +1,5 @@
-
-
+$(document).ready(function () {
+  
 // Initialize Firebase
 
   var config = {
@@ -13,99 +13,113 @@
   firebase.initializeApp(config);
 
 
-
-// Make sure that your configuration matches your firebase script version
-// (Ex. 3.0 != 3.7.1)
-
 // Create a variable to reference the database
 // var database = ...
 
-var database = firebase.database();
+    var db = firebase.database();
 
-   database.ref().set({
-        name: name,
-   })
+    
+
+    console.log(db);
+
+    // // This callback keeps the page updated when a value changes in firebase.
+    db.ref("Train").on("value",function (snapshot){
+      console.log("Everything back?")
+      console.log(snapshot.val());
+      // if (snapshot.child("Name").exist() && 
+      // snapshot.child("Destination").exist() && 
+      // snapshot.child ("First_Train").exist() && 
+      // snapshot.child("Frequency")){
+      //   Name = snapshot.val().Name;
+      //   Destination = snapshot.val().Destination;
+      //   First_Train = parseInt (snapshot.val().First_Train);
+      //   Frequency = parseInt(snapshot.val().Frequency);
+      // }
+        
+    });
+    // // We are now inside our .on function...
+
+    // // Change the HTML using jQuery to reflect the updated clickCounter value
+      $("#submit-btn").on("click",function () {
+        event.preventDefault();
+        console.log("you click it");
+
+        var Name = $("#trainName").val().trim();
+        var Destination = $("#destination").val().trim();
+        var First_Train = $("#firstTrain").val().trim();
+        var Frequency = $("#frequency").val().trim();
+
+        console.log(Name);
+        console.log(Destination);
+        console.log(First_Train);
+        console.log(Frequency);
+
+        db.ref("Train").push({
+          Name: Name,
+          Destination: Destination,
+          First_Train: First_Train,
+          Frequency: Frequency,
+        });
+
+   });
+
    
-console.log(database);
-
-// Use the below initialValue
-var initialValue = 100;
-
-// Use the below variable clickCounter to keep track of the clicks.
-var clickCounter = initialValue;
-
-// --------------------------------------------------------------
-
-// At the initial load and on subsequent data value changes, get a snapshot of the current data. (I.E FIREBASE HERE)
-// This callback keeps the page updated when a value changes in firebase.
-// HINT: Assuming 'database' is our database variable, use...
-// database.ref().on("value", function(snapshot)) {}
-
-// database.ref().on("value", function(snapshot){
-//   console.log(snapshot.val());
-// })
-
-// We are now inside our .on function...
-
-// Console.log the "snapshot" value (a point-in-time representation of the database)
-// This "snapshot" allows the page to get the most current values in firebase.
-
-
-// Change the value of our clickCounter to match the value in the database
-// ___________ = snapshot.val().______________________
-
-// Console Log the value of the clickCounter
-
-// Change the HTML using jQuery to reflect the updated clickCounter value
-  $("#click-button").on("click",function () {
-
-  } )
-
-// Then include Firebase error logging
-// HINT: }, function(errorObject)
-
-
-// --------------------------------------------------------------
-
-// Whenever a user clicks the click button
-$("#click-button").on("click", function() {
-
-  // Reduce the clickCounter by 1
-  clickCounter--;
-
-  // Alert User and reset the counter
-  if (clickCounter === 0) {
-
-    alert("Phew! You made it! That sure was a lot of clicking.");
-
-    clickCounter = initialValue;
-
-  }
-
-  // Save new value to Firebase
-
-
-  // Log the value of clickCounter
-  console.log(clickCounter);
-
-});
-
-// Whenever a user clicks the restart button
-$("#restart-button").on("click", function() {
-
-  // Set the clickCounter back to initialValue
-  clickCounter = initialValue;
-
-  // Save new value to Firebase
-
-
-  // Log the value of clickCounter
-  console.log(clickCounter);
-
-  // Change the HTML Values
-  $("#click-value").text(clickCounter);
+   
 
 
 });
+
+
+
+// db.ref("Train").push({
+//   Name: "Peter the Great Train",
+//   Destination: "St Petersburg, Russia",
+//   First_Train: "21:00",
+//   Frequency: 270,
+// });
+// db.ref("Train").push({
+//   Name: "Versailles Train",
+//   Destination: "Versailles, France",
+//   First_Train: "18:50",
+//   Frequency: 450,
+// });
+// db.ref("Train").push({
+//   Name: "Sistine Chapel",
+//   Destination: "Vatican City, Rome",
+//   First_Train: "03:30",
+//   Frequency: 540,
+// });
+// db.ref("Train").push({
+//   Name: "Notre Dame Train",
+//   Destination: "Paris, France",
+//   First_Train: "10:40",
+//   Frequency: 210,
+// });
+// db.ref("Train").push({
+//   Name: "The Colosseum Train",
+//   Destination: "Roma, Italy",
+//   First_Train: "21:00",
+//   Frequency: 210,
+// });
+// db.ref("Train").push({
+//   Name: "The Vatican St Peter's Train",
+//   Destination: "Vatican City, Rome",
+//   First_Train: "15:45",
+//   Frequency: 540,
+// });
+// db.ref("Train").push({
+//   Name: "Hagia Sophia Train",
+//   Destination: "Istanbul, Turkey",
+//   First_Train: "08:15",
+//   Frequency: 360,
+// });
+// db.ref("Train").push({
+//   Name: "Santorini Train",
+//   Destination: "Santorini, Greece",
+//   First_Train: "17:15",
+//   Frequency: 500,
+// });
+
+
 
 
