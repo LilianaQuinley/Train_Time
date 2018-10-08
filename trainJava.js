@@ -58,18 +58,50 @@ $(document).ready(function () {
     console.log(childSnapshot.val());
 
     var trains = childSnapshot.val();
+
+    startTime.push( trains.First_Train);
+    tFrequency.push(trains.Frequency);
+    console.log(startTime);
+    console.log(tFrequency);
+
+    console.log("This is our first train time: " + trains.First_Train);
+    let trainStartingTime = moment(trains.First_Train, "HH:mm").subtract(1, "days");
+    console.log(trainStartingTime.toString())
+    console.log("firstStartTime is " + trainStartingTime);
+    let diffTime = moment().diff(moment(trainStartingTime), "minutes");
+    console.log("DIFFERENCE IN TIME: " + diffTime);
+
+    // Time apart (remainder)
+    var tRemainder = diffTime % trains.Frequency;
+    console.log(tRemainder);
+
+    // Minute Until Train
+    var tMinutesTillTrain = trains.Frequency - tRemainder;
+    console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+
+    // Next Train
+    var nextTrain = moment().add(tMinutesTillTrain, "minutes");
+    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+
     var row = $('<tr>');
     row.append('<td>' + trains.Name + '</td>');
     row.append('<td>' + trains.Destination + '</td>');
     row.append('<td>' + trains.Frequency + '</td>');
-    row.append('<td />');
-    row.append('<td />');
+    row.append('<td>' + moment(nextTrain).format("hh:mm") + '</td>');
+    row.append('<td>' + tMinutesTillTrain + '</td>');
     $('#results').append(row);
+    
 
    });
 
+   var tFrequency = [];
+   var startTime = [];
+  
+
+
 });
 
+  
 
 
 
